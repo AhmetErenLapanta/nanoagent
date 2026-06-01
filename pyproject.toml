@@ -1,0 +1,42 @@
+[project]
+name = "nanoagent"
+version = "0.1.0"
+description = "A minimal AI coding agent in a few hundred lines — no framework, no magic."
+readme = "README.md"
+authors = [
+    { name = "Ahmet Eren Lapanta", email = "ahmet.lapanta01@gmail.com" }
+]
+requires-python = ">=3.12"
+license = "MIT"
+license-files = ["LICENSE"]
+keywords = ["agent", "llm", "coding-agent", "claude", "cli", "tool-use"]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries",
+    "Environment :: Console",
+]
+dependencies = [
+    "anthropic>=0.104.1",
+    "pydantic>=2.13.4",
+    "python-dotenv>=1.2.2",
+    "rich>=15.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/AhmetErenLapanta/nanoagent"
+Repository = "https://github.com/AhmetErenLapanta/nanoagent"
+
+[project.scripts]
+nanoagent = "nanoagent.cli:main"
+
+[build-system]
+requires = ["uv_build>=0.10.9,<0.11.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pyright>=1.1.409",
+    "pytest>=9.0.3",
+    "ruff>=0.15.14",
+]
