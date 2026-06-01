@@ -106,7 +106,7 @@ class Renderer:
         self.console.print(
             Panel(
                 renderable,
-                title="[bold magenta]assistant[/bold magenta]",
+                title="[bold magenta]nanoagent[/bold magenta]",
                 title_align="left",
                 border_style="magenta",
             )

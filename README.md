@@ -2,9 +2,12 @@
 
 A minimal AI coding agent in a few hundred lines — no framework, no magic.
 
-**Agents are not magic.** Behind the complex frameworks, an agent is fundamentally three things:
-a loop, a tool dispatch table, and an event stream. The model never touches your
-filesystem — it only *asks* for things to happen, and your code makes them happen.
+Behind the complex frameworks, an agent is fundamentally three things:
+a loop, a tool dispatch table, and an event stream.
+
+The model never touches your filesystem — it only *asks*,
+and your code makes things happen.
+
 `nanoagent` is the smallest honest implementation of that idea, built directly on the
 Anthropic API with no framework in between.
 
@@ -38,28 +41,28 @@ cp .env.example .env          # then put your ANTHROPIC_API_KEY in .env
 uv run nanoagent
 ```
 
-```
-╭─────────────────────────────────────────────────╮
-│ nanoagent · a minimal coding agent              │
-│ Enter to send · Ctrl-C to stop · Ctrl-D to quit │
-╰─────────────────────────────────────────────────╯
-you› what does this project do? read the source and summarize
+A session looks like this:
 
-⚙ ls  path="src/nanoagent"
-  └ ✓ __init__.py
-cli.py
-loop.py
-...
+```
+› what does this project do? read the source and summarize
+
 ⚙ read_file  path="src/nanoagent/loop.py"
-  └ ✓ from __future__ import annotations ...
-╭─ assistant ─────────────────────────────────────╮
-│ It's a small agent loop: each turn calls the     │
-│ model, runs any tools it requests, feeds the     │
-│ results back, and repeats until the model stops. │
-╰─────────────────────────────────────────────────╯
+  └ ✓ from __future__ import annotations
+      from collections.abc import Generator
+      ...
+
+╭─ nanoagent ──────────────────────────────────────────╮
+│ A small agent loop: each turn calls the model, runs  │
+│ any tools it requests, feeds the results back, and   │
+│ repeats until the model stops.                       │
+╰──────────────────────────────────────────────────────╯
 ```
 
-- **Enter** sends your message. **Ctrl-C** stops the agent mid-run and returns you to the prompt. **Ctrl-D** quits.
+Keys:
+
+- **Enter** sends your message
+- **Ctrl-C** stops the agent mid-run and returns you to the prompt
+- **Ctrl-D** quits
 
 ## Article
 
