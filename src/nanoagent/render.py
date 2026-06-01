@@ -8,7 +8,6 @@ from rich.console import Console, Group
 from rich.live import Live
 from rich.markdown import Markdown
 from rich.panel import Panel
-from rich.rule import Rule
 from rich.spinner import Spinner
 from rich.text import Text
 
@@ -23,6 +22,8 @@ from .types import (
 )
 
 _SNIPPET_LIMIT = 200
+_RESULT_PREFIX = "  └ "
+_RESULT_INDENT = " " * (len(_RESULT_PREFIX) + 2)
 
 
 def _snippet(s: str) -> str:
@@ -54,7 +55,7 @@ class Renderer:
 
     def prompt(self) -> str:
         _drain_stdin()
-        return self.console.input("[bold cyan]you›[/bold cyan] ").strip()
+        return self.console.input("[bold cyan]›[/bold cyan] ").strip()
 
     def goodbye(self) -> None:
         self.console.print()
@@ -69,27 +70,11 @@ class Renderer:
             case ToolCall(name=n, input=i):
                 self._stop_spinner()
                 self._render_tool_call(n, i)
-            case ToolResult(output=o, is_error=False):
+            case ToolResult(output=o, is_error=err):
                 self._stop_spinner()
-                self.console.print(
-                    Text.assemble(
-                        ("  └ ", "dim"),
-                        ("✓ ", "green"),
-                        (_snippet(o), "dim"),
-                    )
-                )
-            case ToolResult(output=o, is_error=True):
-                self._stop_spinner()
-                self.console.print(
-                    Text.assemble(
-                        ("  └ ", "dim"),
-                        ("✗ ", "red"),
-                        (_snippet(o), "red"),
-                    )
-                )
+                self._render_tool_result(o, is_error=err)
             case TurnDone():
                 self._stop_spinner()
-                self.console.print(Rule(style="dim"))
             case AgentError(message=m):
                 self._stop_spinner()
                 self.console.print(
@@ -136,6 +121,21 @@ class Renderer:
                 (_format_args(args), "dim"),
             )
         )
+
+    def _render_tool_result(self, output: str, *, is_error: bool) -> None:
+        marker = "✗" if is_error else "✓"
+        marker_style = "red" if is_error else "green"
+        body_style = "red" if is_error else "dim"
+        lines = _snippet(output).splitlines() or [""]
+        self.console.print(
+            Text.assemble(
+                (_RESULT_PREFIX, "dim"),
+                (f"{marker} ", marker_style),
+                (lines[0], body_style),
+            )
+        )
+        for line in lines[1:]:
+            self.console.print(Text(_RESULT_INDENT + line, style=body_style))
 
     def _start_spinner(self) -> None:
         if self._live is not None:
