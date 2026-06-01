@@ -1,6 +1,6 @@
 # nanoagent
 
-A minimal, lean AI coding agent in a few hundred lines of Python.
+A minimal AI coding agent in a few hundred lines — no framework, no magic.
 
 **Agents are not magic.** Behind the complex frameworks, an agent is fundamentally three things:
 a loop, a tool dispatch table, and an event stream. The model never touches your
