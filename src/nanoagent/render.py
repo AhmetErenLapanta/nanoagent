@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import random
 import sys
 import termios
 
@@ -24,6 +25,64 @@ from .types import (
 _SNIPPET_LIMIT = 200
 _RESULT_PREFIX = "  └ "
 _RESULT_INDENT = " " * (len(_RESULT_PREFIX) + 2)
+
+_THINKING_WORDS = (
+    "accomplishing",
+    "actualizing",
+    "baking",
+    "bamboozling",
+    "brewing",
+    "calculating",
+    "cerebrating",
+    "churning",
+    "coalescing",
+    "cogitating",
+    "computing",
+    "conjuring",
+    "cooking",
+    "crafting",
+    "crunching",
+    "deliberating",
+    "discombobulating",
+    "finagling",
+    "flibbertigibbeting",
+    "forging",
+    "frobnicating",
+    "germinating",
+    "hatching",
+    "herding",
+    "honking",
+    "hustling",
+    "ideating",
+    "incubating",
+    "inferring",
+    "manifesting",
+    "marinating",
+    "moseying",
+    "mulling",
+    "musing",
+    "noodling",
+    "percolating",
+    "perusing",
+    "pondering",
+    "puttering",
+    "reticulating",
+    "ruminating",
+    "schlepping",
+    "shimmying",
+    "simmering",
+    "smooshing",
+    "spelunking",
+    "spinning",
+    "stewing",
+    "synthesizing",
+    "thinking",
+    "tinkering",
+    "transmuting",
+    "vibing",
+    "whittling",
+    "wrangling",
+)
 
 
 def _snippet(s: str) -> str:
@@ -140,7 +199,8 @@ class Renderer:
     def _start_spinner(self) -> None:
         if self._live is not None:
             return
-        spinner = Spinner("dots", text=Text("thinking…", style="dim"))
+        word = random.choice(_THINKING_WORDS)
+        spinner = Spinner("dots", text=Text(f"{word}…", style="dim"))
         self._live = Live(
             Group(spinner),
             console=self.console,
