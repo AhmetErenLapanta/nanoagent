@@ -28,6 +28,16 @@ Anthropic API with no framework in between.
 
 ## Setup
 
+Install [`uv`](https://docs.astral.sh/uv/) if you don't have it (macOS / Linux):
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+> Windows or other installers: see the [`uv` install docs](https://docs.astral.sh/uv/getting-started/installation/).
+
+Then clone and set up the project:
+
 ```bash
 git clone https://github.com/AhmetErenLapanta/nanoagent.git
 cd nanoagent
